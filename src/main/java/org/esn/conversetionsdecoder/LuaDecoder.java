@@ -26,7 +26,13 @@ public class LuaDecoder {
         List<String> lines = Files.readAllLines(path, Charset.forName("UTF-8"));
         StringBuilder sb = new StringBuilder();
         for (int i = 1; i < lines.size(); i++) {
-            sb.append(lines.get(i));
+            
+            String line=lines.get(i);
+            int indexOf = line.indexOf("--");
+            if(indexOf!=-1) {
+                line=line.substring(0, indexOf);
+            }
+            sb.append(line);
         }
         String luaSource = sb.toString();
         String jsonString = luaSource.replaceAll("=", ":").replaceAll("[\\[\\]]", "").replaceAll("\" :", "\":").replaceAll(",\\n(.+)\\}", "\n$1}");
